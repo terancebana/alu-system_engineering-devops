@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Access Denied</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            background: #000;
+            color: #0f0;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .terminal {
+            background: rgba(0, 20, 0, 0.9);
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.3),
+                        inset 0 0 50px rgba(0, 255, 0, 0.05);
+            animation: terminalGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes terminalGlow {
+            0%, 100% { box-shadow: 0 0 50px rgba(0, 255, 0, 0.3), inset 0 0 50px rgba(0, 255, 0, 0.05); }
+            50% { box-shadow: 0 0 80px rgba(0, 255, 0, 0.5), inset 0 0 50px rgba(0, 255, 0, 0.1); }
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #0f0;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #0f0;
+            box-shadow: 0 0 5px #0f0;
+        }
+
+        .terminal-title {
+            margin-left: 20px;
+            font-size: 14px;
+            color: #0f0;
+        }
+
+        h1 {
+            font-size: 100px;
+            font-weight: bold;
+            color: #0f0;
+            text-shadow: 0 0 20px #0f0, 0 0 40px #0f0;
+            margin: 20px 0;
+            animation: glitch 3s infinite;
+            text-align: center;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            91% { transform: translate(-2px, 2px); }
+            92% { transform: translate(2px, -2px); }
+            93% { transform: translate(-2px, 2px); }
+        }
+
+        .error-code {
+            font-size: 20px;
+            color: #0f0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .error-code::before {
+            content: '> ';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .message {
+            font-size: 16px;
+            color: #0f0;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        .message-line {
+            opacity: 0;
+            animation: typeIn 0.5s forwards;
+        }
+
+        .message-line:nth-child(1) { animation-delay: 0.2s; }
+        .message-line:nth-child(2) { animation-delay: 0.5s; }
+        .message-line:nth-child(3) { animation-delay: 0.8s; }
+        .message-line:nth-child(4) { animation-delay: 1.1s; }
+        .message-line:nth-child(5) { animation-delay: 1.4s; }
+
+        @keyframes typeIn {
+            to { opacity: 1; }
+        }
+
+        .required-text {
+            font-size: 14px;
+            color: #0f0;
+            font-style: italic;
+            margin: 30px 0;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            background: transparent;
+            color: #0f0;
+            text-decoration: none;
+            border: 2px solid #0f0;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn::before {
+            content: '[';
+            margin-right: 10px;
+        }
+
+        .btn::after {
+            content: ']';
+            margin-left: 10px;
+        }
+
+        .skull {
+            font-size: 60px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .code-rain {
+            position: absolute;
+            color: #0f0;
+            font-size: 16px;
+            animation: fall linear infinite;
+            text-shadow: 0 0 5px #0f0;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        .warning-icon {
+            display: inline-block;
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 60px; }
+            .terminal { padding: 30px 20px; }
+            .message { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    
+    <div class="container">
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-btn"></div>
+                    <div class="terminal-btn"></div>
+                    <div class="terminal-btn"></div>
+                </div>
+                <div class="terminal-title">root@system:~$ ERROR_404</div>
+            </div>
+            
+            <div class="skull">☠️</div>
+            <h1>404</h1>
+            <div class="error-code">ERROR: ACCESS_DENIED</div>
+            
+            <div class="message">
+                <div class="message-line">> Initializing connection...</div>
+                <div class="message-line">> Scanning for requested resource...</div>
+                <div class="message-line">> <span class="warning-icon">⚠</span> WARNING: Resource not found in database</div>
+                <div class="message-line">> The page you are trying to access does not exist</div>
+                <div class="message-line">> System suggests returning to home directory</div>
+            </div>
+            
+            <div class="required-text">Ceci n'est pas une page</div>
+            
+            <div style="text-align: center;">
+                <a href="/" class="btn">RETURN_HOME</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 35);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Random code snippets floating
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const codes = ['0x404', 'NULL', 'ERR', '::::', '||||', '####'];
+                const code = document.createElement('div');
+                code.className = 'code-rain';
+                code.textContent = codes[Math.floor(Math.random() * codes.length)];
+                code.style.left = Math.random() * 100 + '%';
+                code.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(code);
+                
+                setTimeout(() => code.remove(), 5000);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
